@@ -11,44 +11,44 @@ using namespace std;
 // graph class stores all edges on campus and handles shortest path + mst
 class Graph {
 private:
-    // make adjacency list
-    // each int (node) maps to a vector of pairs (neighbor, travel time)
-    unordered_map<int, vector<pair<int,int>>> adj;
+    struct Edge {
+        int to;
+        int weight;
+        bool open;
+    };
 
-    // stores closed edges as pairs inside a vector
-    vector<pair<int,int>> closedEdges;
+    unordered_map<int, vector<Edge>> adj;
 
 public:
     // constructor
     Graph();
 
-    // adds an undirected edge between two locations with the weight being a travel time
-    void addEdge(int a, int b, int time);
+    // add an edge
+    void addEdge(int a, int b, int weight);
 
-    // Checks if an edge exists in the adjacency list
-    bool edgeExists(int a, int b);
-
-    // checks if an edge is marked as closed
-    bool isEdgeClosed(int a, int b);
-
-    // if open, close
-    // if closed, open
+    //toggle
     void toggleEdge(int a, int b);
 
-    // returns whether open closed or dne for an edge
-    string getEdgeStatus(int a, int b);
+    // is there an edge t/f
+    bool edgeExists(int a, int b) const;
 
-    // returns true if a path exists ignoring closed edges
-    bool isConnected(int start, int goal);
+    //isopen
+    bool isOpen(int a, int b) const;
 
-    // returns the shortest path travel time using Dijkstra or -1 if no path exist
-    int shortestPath(int start, int goal);
+    //isconnected
+    bool isConnected(int start, int end);
 
-    // returns a list of nodes used in the shortest path
+    //mst
+    int shortestPath(int start, int end);
+
+    //mst cost
+    int mstCost(const vector<int>& nodes);
+
     vector<int> getShortestPathNodes(int start, int goal);
 
-    // computes MST cost of the student zone
-    int computeMST(vector<int> nodes, vector<pair<pair<int,int>,int>> edges);
+    string getEdgeStatus(int a, int b) const;
+
+    int computeMST(vector<int> nodes, vector<pair<pair<int,int>, int>> edges);
 };
 
 #endif

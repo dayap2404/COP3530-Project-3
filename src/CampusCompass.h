@@ -12,7 +12,7 @@ private:
     // perhaps some graph representation?
     //graph object
     Graph graph;
-    StudentManager student;
+    StudentManager studentManager;
 
 public:
     // Think about what helper functions you will need in the algorithm

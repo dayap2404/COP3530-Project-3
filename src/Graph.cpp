@@ -5,68 +5,71 @@
 using namespace std;
 
 // CAMPUS ROADS
+//had to fix everything bc if not toggling wasnt going to work
 
-// contructor, FIXME
+// contructor
 Graph::Graph() {}
 
 // adds undirected edge between a and b with weight time
-void Graph::addEdge(int a, int b, int time) {
-    // add b to a's adjacency list
-    adj[a].push_back({b, time});
+void Graph::addEdge(int a, int b, int weight) {
+    // create edge from a → b
+    Edge e1;
+    e1.to = b;
+    e1.weight = weight;
+    e1.open = true; // new edge is always open
 
-    // add a to b's adjacency list
-    adj[b].push_back({a, time});
+    // create edge from b to a
+    Edge e2;
+    e2.to = a;
+    e2.weight = weight;
+    e2.open = true;
+
+    // push into adjacency list
+    adj[a].push_back(e1);
+    adj[b].push_back(e2);
 }
 
 // checks if edge exists in adjacency list
-bool Graph::edgeExists(int a, int b) {
-    // if a is not in the map at all, edge does not exist
-    if (adj.find(a) == adj.end()) return false;
+bool Graph::edgeExists(int a, int b) const {
+    if (!adj.count(a)) return false;
 
-    // check adjacency list of a for neighbor b
-    for (auto &p : adj[a]) {
-        if (p.first == b) return true;
-    }
-    return false;
-}
-
-// checks if an edge is in closedEdges vector
-bool Graph::isEdgeClosed(int a, int b) {
-    // check both orders bc undirected
-    for (auto &p : closedEdges) {
-        if ((p.first == a && p.second == b) ||
-            (p.first == b && p.second == a)) {
+    for (const Edge &e : adj.at(a)) {
+        if (e.to == b)
             return true;
-        }
     }
     return false;
 }
 
-// toggle edge open/closed
 void Graph::toggleEdge(int a, int b) {
-    // if edge is already closed reopen it by removing from closedEdges
-    for (int i = 0; i < closedEdges.size(); i++) {
-        if ((closedEdges[i].first == a && closedEdges[i].second == b) ||
-            (closedEdges[i].first == b && closedEdges[i].second == a)) {
-            closedEdges.erase(closedEdges.begin() + i);
-            return;
+    // toggle a to b
+    for (Edge &e : adj[a]) {
+        if (e.to == b) {
+            e.open = !e.open;
+            break;
         }
     }
 
-    // close it by adding to closedEdges
-    closedEdges.push_back({a, b});
+    // toggle b to a
+    for (Edge &e : adj[b]) {
+        if (e.to == a) {
+            e.open = !e.open;
+            break;
+        }
+    }
 }
 
 // returns edge status
-string Graph::getEdgeStatus(int a, int b) {
-    // if edge does not exist at all
+string Graph::getEdgeStatus(int a, int b) const {
     if (!edgeExists(a, b)) return "DNE";
 
-    // if edge is in closed list
-    if (isEdgeClosed(a, b)) return "closed";
+    for (const Edge &e : adj.at(a)) {
+        if (e.to == b) {
+            return e.open ? "open" : "closed";
+        }
+    }
 
-    // edge is open
-    return "open";
+    // should never happen
+    return "DNE";
 }
 
 // BFS check ignoring closed edges

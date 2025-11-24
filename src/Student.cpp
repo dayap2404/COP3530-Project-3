@@ -11,3 +11,5 @@ Student::Student(const string& name, const string& ufid, int residence, const ve
     this->classes = classes;
 
 }
+
+

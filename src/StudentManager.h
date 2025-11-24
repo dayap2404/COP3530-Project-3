@@ -17,9 +17,6 @@ private:
 public:
     StudentManager();
 
-    // loads the class codes and their locations from classes.csv
-    void loadClassesCSV(const string& filename);
-
     // validation helpers
     bool validateName(const string& name) const;       // names can only have letters/spaces
     bool validateUFID(const string& ufid) const;       // UFIDs must be exactly 8 digits
@@ -42,6 +39,10 @@ public:
 
     // pointer to student
     Student* getStudent(const string& ufid);
+
+    void addClassLocation(const string &classCode, int locationID);
+
+
 };
 
 #endif

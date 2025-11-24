@@ -17,6 +17,8 @@ public:
 
     //constructor
     Student(const string& name, const string& ufid, int residence, const vector<string>& classes);
+
+
 };
 
 #endif
