@@ -42,6 +42,11 @@ public:
 
     void addClassLocation(const string &classCode, int locationID);
 
+    //getter
+
+    const unordered_map<string,int>& getClassLocations() const {
+        return classLocations;
+    }
 
 };
 

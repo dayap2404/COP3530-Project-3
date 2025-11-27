@@ -32,8 +32,8 @@ public:
     // is there an edge t/f
     bool edgeExists(int a, int b) const;
 
-    //isopen
-    bool isOpen(int a, int b) const;
+    bool isEdgeClosed(int a, int b) const;
+
 
     //isconnected
     bool isConnected(int start, int end);
@@ -49,6 +49,11 @@ public:
     string getEdgeStatus(int a, int b) const;
 
     int computeMST(vector<int> nodes, vector<pair<pair<int,int>, int>> edges);
+
+    //getters instead of going public
+    const unordered_map<int, vector<Edge>>& getAdj() const {
+        return adj;
+    }
 };
 
 #endif

@@ -155,9 +155,13 @@ bool StudentManager::dropClass(const string &ufid, const string &classCode) {
 //replacing a class
 bool StudentManager::replaceClass(const string &ufid, const string &oldClass, const string &newClass) {
     //check if student exists
+    Student &student = students[ufid];
+
     if (!students.count(ufid)) {
         return false;
     }
+
+
     //validate the codes
 
     if (!validateClassCode(oldClass)) return false;
@@ -170,7 +174,7 @@ bool StudentManager::replaceClass(const string &ufid, const string &oldClass, co
 
     //check if student takes this class
     bool enrolled = false;
-    Student &student = students[ufid];
+
     for (const string &c : student.classes) {
         if (c == oldClass) {
             enrolled = true;
@@ -191,6 +195,7 @@ bool StudentManager::replaceClass(const string &ufid, const string &oldClass, co
     if (enrolled_new) {
         return false;
     }
+
 
     //replace class
     for (int i=0; i < student.classes.size(); i++) {
